@@ -18,7 +18,7 @@
 
 # Django settings for thummer project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -105,7 +105,7 @@ INSTALLED_APPS = (
 CUTYCAPT = '/var/www/thummer/cutycapt/CutyCapt'
 
 # Use gnome-web-photo in place of cutycapt.
-USE_GNOME-WEB-PHOTO = False
+USE_GNOMEWEBPHOTO = False
 
 # For servers (machines without X server), use the XVFB virtual X server environment (apt-get install xvfb)
 XVFB = False
