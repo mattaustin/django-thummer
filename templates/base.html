@@ -1,0 +1,65 @@
+{% comment %}
+
+#    thummer: website-snapshot/thumbnailing web service
+#    Copyright (C) 2009  Matt Austin
+#
+#    This file is part of thummer.
+#
+#    thummer is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    thummer is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+{% endcomment %}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>thummer</title>
+    <meta name="robots" content="nofollow" />
+    <link rel="stylesheet" href="/media/style.css" type="text/css" />
+    <link title="favicon" rel="shortcut icon" href="/media/favicon.ico" type="image/x-ico" />
+    <script type="text/javascript" src="/media/jquery-latest.pack.js"></script>
+    <script type="text/javascript" src="/media/thickbox-compressed.js"></script>    
+    <link rel="stylesheet" href="/media/thickbox.css" type="text/css" media="screen" />
+   </head>
+  <body>
+     
+    <div id="launchpad">
+      <ul>
+        <li><a href="https://launchpad.net/thummer"><img src="/media/launchpad.png" alt="launchpad" /></a></li>
+        <li><a href="https://launchpad.net/thummer/+filebug"><img src="/media/launchpad-reportabug.gif" alt="Report a bug" /></a></li>
+        <li><a href="https://launchpad.net/thummer/+addquestion"><img src="/media/launchpad-askaquestion.gif" alt="Ask a question" /></a></li>
+      </ul>
+    </div>
+    
+    <div id="header">
+      <a href="/"><img src="/media/thummer.png" alt="thummer" /></a>
+    </div>
+    
+    <div class="content">
+      <div class="sitemessage"><strong>thummer</strong> is a website-snapshot and thumbnailing utility. Developed to aid those depending on "free" web thumbnailing services which restrict the number of requests, thumbnail sizes, and use watermarks or require link backs. Set up your own thumbnailing web service! Thummer is a free django web-app which you can install on your own server. Get it for yourself at: <a href="https://launchpad.net/thummer">https://launchpad.net/thummer</a>.</div>
+      {% block content %}
+      {% endblock %}
+    
+      <div id="licence">
+        <!-- Creative Commons License -->
+        <a href="http://creativecommons.org/licenses/GPL/2.0/">
+        <img alt="CC-GNU GPL" border="0" src="http://creativecommons.org/images/public/cc-GPL-a.png" /></a><br />
+        This software is licensed under the <a href="http://creativecommons.org/licenses/GPL/2.0/">CC-GNU GPL</a> version 2.0 or later.
+        <!-- /Creative Commons License -->
+      </div>
+    </div>
+    
+  </body>
+</html>

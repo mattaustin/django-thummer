@@ -1,0 +1,175 @@
+/*
+
+#    thummer: website-snapshot/thumbnailing web service
+#    Copyright (C) 2009  Matt Austin
+#
+#    This file is part of thummer.
+#
+#    thummer is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    thummer is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+﻿html, body
+{
+  margin: 0;
+  padding: 0;
+
+  background-color: #555753;
+
+  color: #eeeeec;
+  font-family: Sans-Serif;
+}
+
+div#header
+{
+  height: 100px;
+  
+  margin-bottom: 50px;
+
+  background-color: #000000;
+  background-image: url(/media/header-background.png);
+  background-repeat: repeat-x;
+  
+  color: #ffffff;
+}
+
+div#header img
+{
+  margin: 10px;
+}
+
+div#launchpad
+{
+  float: right;
+  
+  height: 32px;
+  
+  margin: 10px;
+  padding: 0 5px 0 5px;
+  
+  background-color: #ffffff;
+
+  color: #000000;
+}
+
+div#launchpad ul, div#launchpad ul li
+{
+  display: inline;
+  margin: 0;
+  padding: 0;
+  
+  list-style-type: none;
+}
+
+div.content
+{
+  width: 780px;
+  
+  margin: 0 auto;
+}
+
+div.sitemessage
+{
+  display: block;
+
+  left: -25px;
+  width: 780px;
+
+  margin: 0px -25px 50px -25px;
+  padding: 10px 30px;
+
+  background-color: #e9b96e;
+  color: #000000;
+}
+
+div.sitemessage a
+{
+  color: #a40000;
+}
+
+ol.latest-captures
+{
+  margin: 0;
+  padding: 0;
+  
+  list-style-type: none;
+}
+
+ol.latest-captures li
+{
+  display: block;
+
+  left: -25px;
+  width: 780px;
+  height: 245px;
+
+  margin: 20px -25px;
+  padding: 10px 30px;
+
+  background-color: #babdb6;
+  background-image: url(/media/box-background-265.png);
+  background-repeat: repeat-x;
+}
+
+ol.latest-captures li h2
+{
+  float: right;
+  
+  font-size: 20px;
+  font-weight: bold;
+}
+
+a.thumbnail
+{
+  display: block;
+  overflow: hidden;
+  
+  height: 235px;
+  width: 310px;
+  
+  margin: 0;
+  padding: 0;
+  
+  background-color: #2e3436;
+  text-align: center;
+}
+
+a.thumbnail:hover
+{
+  background-color: #f57900;
+}
+
+a.thumbnail img
+{
+  /*width: 300px;*/
+  
+  padding: 5px;
+}
+
+img
+{
+  border-style: none;
+}
+
+h1
+{
+  margin: 0;
+  padding: 10px;
+}
+
+div#licence
+{
+  font-size: xx-small;
+  text-align: center;
+}
