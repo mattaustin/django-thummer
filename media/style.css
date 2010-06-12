@@ -126,7 +126,7 @@ ol.latest-captures li h2
 {
   float: right;
   
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -152,9 +152,14 @@ a.thumbnail:hover
 
 a.thumbnail img
 {
-  /*width: 300px;*/
-  
+  width: 300px;
+  height: 225px;
+
   padding: 5px;
+
+  background-image: url(/media/loader.gif);
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 img

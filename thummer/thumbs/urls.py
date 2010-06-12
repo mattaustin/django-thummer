@@ -24,6 +24,8 @@ from thummer.thumbs.models import Snapshot
 #thumbs/
 urlpatterns = patterns('',
     (r'^$', 'django.views.generic.list_detail.object_list', {'queryset': Snapshot.objects.all().order_by('-creation_date')[:10]}),
-    (r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>\d+)/(?P<url>https?://.*)\.png$', 'thummer.thumbs.views.thumb'),
-    (r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>\d+)/(?P<url>https?://.*)$', 'thummer.thumbs.views.thumb'),
+    (r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>\d+)/https?:?//?(?P<url>.*)\.png$', 'thummer.thumbs.views.thumb'),
+    (r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>\d+)/https?:?//?(?P<url>.*)$', 'thummer.thumbs.views.thumb'),
+    #(r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>\d+)/(?P<url>https?://.*)\.png$', 'thummer.thumbs.views.thumb'),
+    #(r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>\d+)/(?P<url>https?://.*)$', 'thummer.thumbs.views.thumb'),
 )

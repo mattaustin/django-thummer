@@ -26,6 +26,7 @@ from thummer.thumbs.models import *
 @cache_page(60 * 60 * 24 * 7 * 52)
 
 def thumb(request, url, width, height, crop):
+  url='http://%s' % url
   
   # Determine if Page exists
   if Page.objects.filter(url=url):

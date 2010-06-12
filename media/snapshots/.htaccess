@@ -1,0 +1,9 @@
+Options -Indexes
+
+FileETag MTime Size
+
+<ifmodule mod_expires.c>
+  ExpiresActive on
+  ExpiresDefault "access plus 1 year"
+</ifmodule>
+
