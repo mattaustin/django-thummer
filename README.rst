@@ -1,7 +1,7 @@
 ==============
 django-thummer
 ==============
-A website snapshot and thumbnailing app for django. Uses firefox, selenium, and
+A website snapshot and thumbnailing app for `Django <http://www.djangoproject.com/>`_. Uses firefox, selenium, and
 sorl-thumbnail.
 
 
