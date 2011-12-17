@@ -7,6 +7,9 @@ sorl-thumbnail.
 Requires Firefox and Xvfb:
 sudo apt-get install firefox xvfb
 
+Installation:
+pip install git+https://github.com/MattAustin/django-thummer@2.0.0
+
 Special thanks to the sorl-thumbnail and selenium projects:
 * https://github.com/sorl/sorl-thumbnail
 * http://code.google.com/p/selenium/
