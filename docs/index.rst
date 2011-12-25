@@ -2,12 +2,20 @@
 django-thummer's documentation
 ==============================
 
+A website snapshot and thumbnailing app for `Django <http://www.djangoproject.com/>`_. Uses firefox, selenium, and
+sorl-thumbnail.
+
+
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-   readme
+   setup
+   api
+   templatetag
+   credits
+   todo
 
 Indices and tables
 ==================

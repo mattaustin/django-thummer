@@ -1,2 +1,3 @@
 *.pyc
 /django_thummer.egg*
+/docs/_build
