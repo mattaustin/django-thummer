@@ -5,7 +5,7 @@ from thummer.views import ThumbnailView
 
 
 urls = patterns('thummer.views',
-    url(r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>0|1)/(?P<url>https?:?//?.*)$',
+    url(r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>0|1)/(?P<scheme>https?)://?(?P<hierarchical_part>.*)$',
         ThumbnailView.as_view(), name='thumbnail'),
 )
 

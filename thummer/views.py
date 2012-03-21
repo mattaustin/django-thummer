@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from django.http import HttpResponseRedirect
 from thummer.utils import get_thumbnail
+import re
 
 try:
     from django.views.generic import View
@@ -28,7 +29,10 @@ class ThumbnailView(View):
         return geometry_string
     
     def get_url(self):
-        return self.kwargs['url']
+        url = '%(scheme)s://%(hierarchical_part)s' %({
+            'scheme': self.kwargs['scheme'],
+            'hierarchical_part': self.kwargs['hierarchical_part']})
+        return url
     
     def get_thumbnail(self):
         if self.get_crop():
