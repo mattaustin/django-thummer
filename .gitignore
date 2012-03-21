@@ -1,3 +1,4 @@
 *.pyc
+/dist
 /django_thummer.egg*
 /docs/_build

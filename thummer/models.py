@@ -6,7 +6,7 @@ from django.db import models
 from pyvirtualdisplay import Display
 from selenium import webdriver
 from sorl.thumbnail import ImageField, get_thumbnail as sorl_thumbnail
-from thummer import settings
+from thummer import settings, utils
 from thummer.managers import QuerySetManager
 import base64
 
@@ -73,4 +73,6 @@ class WebpageSnapshot(models.Model):
     class Meta(object):
         get_latest_by = 'created_at'
         ordering = ['-created_at']
+
+models.signals.pre_delete.connect(utils.delete_image, sender=WebpageSnapshot)
 
