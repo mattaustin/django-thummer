@@ -14,3 +14,6 @@ VALID_FOR = getattr(settings, 'THUMMER_SNAPSHOTS_VALID_FOR',
 
 UPLOAD_PATH = getattr(settings, 'THUMMER_UPLOAD_PATH', 'thummer/snapshots')
 
+THUMBNAIL_DEFAULTS = getattr(settings, 'THUMMER_THUMBNAIL_DEFAULTS',
+    {'crop': 'left top', 'upscale': False, 'format': 'JPEG'})
+

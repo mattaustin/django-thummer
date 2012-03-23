@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 from django.core.files.base import ContentFile
+from django.core.files.images import ImageFile
 from django.db import models
 from pyvirtualdisplay import Display
 from selenium import webdriver
@@ -67,7 +68,11 @@ class WebpageSnapshot(models.Model):
     
     def get_thumbnail(self, geometry_string, **kwargs):
         """A shortcut for sorl thumbnail's ``get_thumbnail`` method."""
-        kwargs.setdefault('crop', 'left top')
+        for key, value in settings.THUMBNAIL_DEFAULTS.items():
+            kwargs.setdefault(key, value)
+        if geometry_string is None:
+            image = ImageFile(self.get_image().file)
+            geometry_string = '%s' %(image.width)
         return sorl_thumbnail(self.get_image(), geometry_string,  **kwargs)
     
     class Meta(object):

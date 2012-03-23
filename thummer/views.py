@@ -18,7 +18,7 @@ class ThumbnailView(View):
         return HttpResponseRedirect(self.get_thumbnail().url)
     
     def get_crop(self):
-        return self.kwargs['crop'] == '1' and True or False
+        return self.kwargs['crop'] == '1'
     
     def get_geometry_string(self):
         width = self.kwargs['width'] != '0' and self.kwargs['width'] or None
