@@ -23,13 +23,14 @@ class WebpageSnapshot(models.Model):
     image = ImageField(editable=False, storage=settings.STORAGE,
         upload_to=settings.UPLOAD_PATH)
     capture_width = models.IntegerField(default=1680, editable=False)
-    created_at = models.DateTimeField(editable=False)
+    created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    captured_at = models.DateTimeField(editable=False, null=True)
     objects = QuerySetManager()
     
     class QuerySet(models.query.QuerySet):
         def valid(self):
-            created_after = datetime.now() - settings.VALID_FOR
-            return self.filter(created_at__gte=created_after)
+            captured_after = datetime.now() - settings.VALID_FOR
+            return self.filter(captured_at__gte=captured_after)
     
     def __unicode__(self):
         return self.url
@@ -40,7 +41,7 @@ class WebpageSnapshot(models.Model):
         display.start()
         browser = webdriver.Firefox()
         browser.get(self.url)
-        self.created_at = datetime.now()
+        self.captured_at = datetime.now()
         png = browser.get_screenshot_as_base64()
         browser.quit()
         display.stop()
@@ -50,8 +51,8 @@ class WebpageSnapshot(models.Model):
     
     def _generate_filename(self):
         """Returns a unique filename base on the url and created datetime."""
-        assert self.created_at
-        datetime_string = unicode(self.created_at)
+        assert self.captured_at
+        datetime_string = unicode(self.captured_at)
         hexdigest = md5(datetime_string + self.url).hexdigest()
         return '%s/%s.png' %(settings.UPLOAD_PATH, hexdigest)
     
@@ -63,7 +64,7 @@ class WebpageSnapshot(models.Model):
     
     def get_image(self):
         if not self.image:
-            self._capture()
+            return self._capture()
         return self.image
     
     def get_thumbnail(self, geometry_string, **kwargs):
@@ -76,8 +77,8 @@ class WebpageSnapshot(models.Model):
         return sorl_thumbnail(self.get_image(), geometry_string,  **kwargs)
     
     class Meta(object):
-        get_latest_by = 'created_at'
-        ordering = ['-created_at']
+        get_latest_by = 'captured_at'
+        ordering = ['-captured_at']
 
 models.signals.pre_delete.connect(utils.delete_image, sender=WebpageSnapshot)
 

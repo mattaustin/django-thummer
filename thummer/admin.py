@@ -5,10 +5,10 @@ from thummer.models import WebpageSnapshot
 
 
 class WebpageSnapshotAdmin(admin.ModelAdmin):
-    date_hierarchy = 'created_at'
-    list_display = ['url', 'created_at', 'get_admin_image']
-    list_filter = ['created_at']
-    readonly_fields = ['url', 'created_at', 'image']
+    date_hierarchy = 'captured_at'
+    list_display = ['url', 'captured_at', 'get_admin_image']
+    list_filter = ['captured_at']
+    readonly_fields = ['url', 'captured_at', 'created_at', 'image']
     
     def get_admin_image(self, obj):
         image = obj.get_image()
