@@ -14,9 +14,10 @@ class Migration(SchemaMigration):
         # Changing field 'WebpageSnapshot.created_at'
         db.alter_column('thummer_webpagesnapshot', 'created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True))
 
-        for obj in orm['thummer.WebpageSnapshot'].objects.all():
-            obj.captured_at = obj.created_at
-            obj.save()
+        if not db.dry_run:
+            for obj in orm['thummer.WebpageSnapshot'].objects.all():
+                obj.captured_at = obj.created_at
+                obj.save()
 
 
     def backwards(self, orm):
