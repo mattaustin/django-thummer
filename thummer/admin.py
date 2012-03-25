@@ -13,8 +13,11 @@ class WebpageSnapshotAdmin(admin.ModelAdmin):
     def get_admin_image(self, obj):
         image = obj.get_image()
         thumbnail = obj.get_thumbnail('150x94')
-        return '<a href="%s"><img src="%s" alt="%s" /></a>' %(image.url,
-            thumbnail.url, obj)
+        if hasattr(image, 'url'):
+            return '<a href="%s"><img src="%s" alt="%s" /></a>' %(image.url,
+                thumbnail.url, obj)
+        else:
+            return '<img src="%s" alt="%s" />' %(thumbnail.url, obj)
     get_admin_image.allow_tags = True
     get_admin_image.short_description = 'image'
     

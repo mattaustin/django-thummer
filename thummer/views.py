@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from django.http import HttpResponseRedirect
-from thummer.utils import get_thumbnail
+from thummer import get_thumbnail
 import re
 
 try:
