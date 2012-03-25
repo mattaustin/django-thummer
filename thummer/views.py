@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from django.http import HttpResponseRedirect
-from thummer.utils import get_thumbnail
+from thummer import get_thumbnail
 import re
 
 try:
@@ -18,7 +18,7 @@ class ThumbnailView(View):
         return HttpResponseRedirect(self.get_thumbnail().url)
     
     def get_crop(self):
-        return self.kwargs['crop'] == '1' and True or False
+        return self.kwargs['crop'] == '1'
     
     def get_geometry_string(self):
         width = self.kwargs['width'] != '0' and self.kwargs['width'] or None
