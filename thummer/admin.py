@@ -8,7 +8,9 @@ class WebpageSnapshotAdmin(admin.ModelAdmin):
     date_hierarchy = 'captured_at'
     list_display = ['url', 'captured_at', 'get_admin_image']
     list_filter = ['captured_at']
+    list_per_page = 10
     readonly_fields = ['url', 'captured_at', 'created_at', 'image']
+    search_fields = ['url']
     
     def get_admin_image(self, obj):
         image = obj.get_image()
