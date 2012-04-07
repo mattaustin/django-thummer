@@ -5,8 +5,6 @@ from django.conf import settings
 from django.core.files.storage import default_storage
 
 
-MEDIA_ROOT = getattr(settings, 'THUMMER_MEDIA_ROOT', settings.MEDIA_ROOT)
-
 STORAGE = getattr(settings, 'THUMMER_STORAGE', default_storage)
 
 VALID_FOR = getattr(settings, 'THUMMER_SNAPSHOTS_VALID_FOR',
