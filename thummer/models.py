@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from datetime import datetime
+
 from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
 from django.core.files.storage import get_storage_class
 from django.db import models
-from pyvirtualdisplay import Display
-from selenium import webdriver
 from sorl.thumbnail import ImageField, get_thumbnail as sorl_thumbnail
 import base64
 
@@ -43,9 +43,14 @@ class WebpageSnapshot(models.Model):
 
     def _capture(self):
         """Save snapshot image of webpage, and set captured datetime."""
-        display = Display(visible=0, size=self._get_capture_resolution())
-        display.start()
-        browser = webdriver.Firefox()
+        from selenium import webdriver
+        from selenium.webdriver.firefox.options import Options
+        options = Options()
+        options.add_argument('--headless')
+        browser = webdriver.Firefox(options=options)
+        # browser.set_page_load_timeout(10)  # TODO
+        capture_resolution = self._get_capture_resolution()
+        browser.set_window_size(*capture_resolution)
         browser.get(self.url)
         self.captured_at = datetime.now()
         png = browser.get_screenshot_as_base64()
