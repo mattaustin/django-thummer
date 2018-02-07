@@ -52,6 +52,9 @@ class WebpageSnapshot(models.Model):
         capture_resolution = self._get_capture_resolution()
         browser.set_window_size(*capture_resolution)
         browser.get(self.url)
+        viewport_height = browser.execute_script(
+            'return document.body.scrollHeight;')
+        browser.set_window_size(capture_resolution[0], viewport_height)  # TODO
         self.captured_at = datetime.now()
         png = browser.get_screenshot_as_png()
 
@@ -67,7 +70,7 @@ class WebpageSnapshot(models.Model):
         return '{}/{}.png'.format(settings.UPLOAD_PATH, hexdigest)
 
     def _get_capture_resolution(self):
-        return (self.capture_width, int((self.capture_width/16.0)*10))
+        return self.capture_width, int((self.capture_width/16.0)*10)
 
     def get_absolute_url(self):
         return self.image and self.image.url
