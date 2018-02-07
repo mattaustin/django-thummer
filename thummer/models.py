@@ -65,8 +65,8 @@ class WebpageSnapshot(models.Model):
     def _generate_filename(self):
         """Returns a unique filename base on the url and created datetime."""
         assert self.captured_at
-        datetime_string = '{}'.format(self.captured_at)
-        hexdigest = md5(datetime_string + self.url).hexdigest()
+        datetime_string = '{}'.format(self.captured_at).encode('utf-8')
+        hexdigest = md5(datetime_string + self.url.encode('utf-8')).hexdigest()
         return '{}/{}.png'.format(settings.UPLOAD_PATH, hexdigest)
 
     def _get_capture_resolution(self):
