@@ -8,10 +8,10 @@ sorl-thumbnail.
 
 Getting Started
 ===============
-Documentation is hosted online at: http://django-thummer.readthedocs.org/
+Documentation is hosted online at: https://django-thummer.readthedocs.io/
 
 
 Development
 =============
-Git repository and issue tracking: https://github.com/MattAustin/django-thummer
+Git repository and issue tracking: https://github.com/mattaustin/django-thummer
 
