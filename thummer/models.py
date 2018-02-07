@@ -7,15 +7,15 @@ from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
 from django.core.files.storage import get_storage_class
 from django.db import models
-from sorl.thumbnail import ImageField, get_thumbnail as sorl_thumbnail
-import base64
+from sorl.thumbnail import get_thumbnail as sorl_thumbnail
+from sorl.thumbnail import ImageField
+
+from . import querysets, settings, tasks, utils
 
 try:
     from hashlib import md5
 except ImportError:
     from md5 import new as md5
-
-from . import settings, querysets, tasks, utils
 
 
 class WebpageSnapshot(models.Model):
@@ -53,11 +53,10 @@ class WebpageSnapshot(models.Model):
         browser.set_window_size(*capture_resolution)
         browser.get(self.url)
         self.captured_at = datetime.now()
-        png = browser.get_screenshot_as_base64()
+        png = browser.get_screenshot_as_png()
+
         browser.quit()
-        display.stop()
-        self.image.save(self._generate_filename(),
-                        ContentFile(base64.decodestring(png)))
+        self.image.save(self._generate_filename(), ContentFile(png))
         return True
 
     def _generate_filename(self):
