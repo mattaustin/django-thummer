@@ -5,7 +5,7 @@ from __future__ import absolute_import, unicode_literals
 def get_thumbnail(url, geometry_string, **kwargs):
     """Finds or creates a valid ``WebpageSnapshot`` for the provided url,
     and returns its ``get_thumbnail`` method with the arguments provided."""
-    from thummer.models import WebpageSnapshot
+    from .models import WebpageSnapshot
     try:
         webpage_snapshot = WebpageSnapshot.objects.filter(
             url=url).valid().latest()

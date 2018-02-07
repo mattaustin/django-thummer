@@ -18,6 +18,6 @@ except ImportError:
 
 @task(ignore_result=True)
 def capture(pk):
-    from thummer.models import WebpageSnapshot
+    from .models import WebpageSnapshot
     instance = WebpageSnapshot.objects.get(pk=pk)
     instance._capture()

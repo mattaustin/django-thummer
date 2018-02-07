@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from django.conf.urls.defaults import include, patterns, url
-from thummer.views import ThumbnailView
+
+from . import views
 
 
 urls = patterns(
@@ -9,7 +11,7 @@ urls = patterns(
     'thummer.views',
 
     url(r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>0|1)/(?P<scheme>https?)://?(?P<hierarchical_part>.*)$',  # noqa: E501
-        ThumbnailView.as_view(), name='thumbnail'),
+        views.ThumbnailView.as_view(), name='thumbnail'),
 
 )
 

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
 from django.http import HttpResponseRedirect
 from django.views.generic import View
-from thummer import get_thumbnail
+
+from .utils import get_thumbnail
 
 
 class ThumbnailView(View):
