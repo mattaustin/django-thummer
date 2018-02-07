@@ -18,4 +18,3 @@ def get_thumbnail(url, geometry_string, **kwargs):
 def delete_image(sender, instance, **kwargs):
     if instance.image:
         instance.image.delete(save=False)
-

@@ -5,7 +5,7 @@ try:
     from celery.task import task
 except ImportError:
     from functools import wraps
-    
+
     # Faux task decorator
     def task(*args, **kwargs):
         def factory(func):
@@ -21,4 +21,3 @@ def capture(pk):
     from thummer.models import WebpageSnapshot
     instance = WebpageSnapshot.objects.get(pk=pk)
     instance._capture()
-

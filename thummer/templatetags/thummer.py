@@ -16,16 +16,16 @@ class ThummerNodeBase(Node):
     A Node that renders safely
     """
     nodelist_empty = NodeList()
-    
+
     def render(self, context):
         try:
             return self._render(context)
         except Exception:
             if settings.DEBUG:
                 raise
-            #TODO: Log error
+            # TODO: Log error
             return self.nodelist_empty.render(context)
-    
+
     def _render(self, context):
         raise NotImplemented()
 
@@ -35,7 +35,7 @@ class ThummerNode(ThummerNodeBase):
     child_nodelists = ('nodelist_url', 'nodelist_empty')
     error_msg = ('Syntax error. Expected: ``thummer url geometry '
                  '[key1=val1 key2=val2...] as var``')
-    
+
     def __init__(self, parser, token):
         bits = token.split_contents()
         if len(bits) < 5 or bits[-2] != 'as':
@@ -55,14 +55,14 @@ class ThummerNode(ThummerNodeBase):
         if parser.next_token().contents == 'empty':
             self.nodelist_empty = parser.parse(('endthummer',))
             parser.delete_first_token()
-    
+
     def _render(self, context):
         url = self.url.resolve(context)
         geometry = self.geometry.resolve(context)
         options = {}
         for key, expr in self.options:
-            noresolve = {u'True': True, u'False': False, u'None': None}
-            value = noresolve.get(unicode(expr), expr.resolve(context))
+            noresolve = {'True': True, 'False': False, 'None': None}
+            value = noresolve.get('{}'.format(expr), expr.resolve(context))
             if key == 'options':
                 options.update(value)
             else:
@@ -76,10 +76,9 @@ class ThummerNode(ThummerNodeBase):
         output = self.nodelist_url.render(context)
         context.pop()
         return output
-    
+
     def __iter__(self):
         for node in self.nodelist_url:
             yield node
         for node in self.nodelist_empty:
             yield node
-

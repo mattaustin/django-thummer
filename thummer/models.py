@@ -20,28 +20,34 @@ except ImportError:
 
 class WebpageSnapshot(models.Model):
     """Model representing a webpage snapshot."""
+
     url = models.URLField(db_index=True)
+
     image = ImageField(editable=False, storage=settings.STORAGE,
-        upload_to=settings.UPLOAD_PATH, null=True)
+                       upload_to=settings.UPLOAD_PATH, null=True)
+
     capture_width = models.IntegerField(default=1680, editable=False)
+
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
+
     captured_at = models.DateTimeField(editable=False, null=True)
+
     objects = QuerySetManager()
-    
+
     class Meta(object):
         get_latest_by = 'captured_at'
         ordering = ['-captured_at']
-    
+
     class QuerySet(models.query.QuerySet):
         def valid(self):
             captured_after = datetime.now() - settings.VALID_FOR
             return self.filter(
-                models.Q(captured_at__gte=captured_after)|
+                models.Q(captured_at__gte=captured_after) |
                 models.Q(captured_at__isnull=True))
-    
+
     def __unicode__(self):
         return self.url
-    
+
     def _capture(self):
         """Save snapshot image of webpage, and set captured datetime."""
         display = Display(visible=0, size=self._get_capture_resolution())
@@ -53,25 +59,25 @@ class WebpageSnapshot(models.Model):
         browser.quit()
         display.stop()
         self.image.save(self._generate_filename(),
-            ContentFile(base64.decodestring(png)))
+                        ContentFile(base64.decodestring(png)))
         return True
-    
+
     def _generate_filename(self):
         """Returns a unique filename base on the url and created datetime."""
         assert self.captured_at
-        datetime_string = unicode(self.captured_at)
+        datetime_string = '{}'.format(self.captured_at)
         hexdigest = md5(datetime_string + self.url).hexdigest()
-        return '%s/%s.png' %(settings.UPLOAD_PATH, hexdigest)
-    
+        return '{}/{}.png'.format(settings.UPLOAD_PATH, hexdigest)
+
     def _get_capture_resolution(self):
         return (self.capture_width, int((self.capture_width/16.0)*10))
-    
+
     def get_absolute_url(self):
         return self.image and self.image.url
-    
+
     def get_image(self):
         return self.image or self.get_placeholder_image()
-    
+
     def get_placeholder_image(self):
         storage_class = get_storage_class(settings.STATICFILES_STORAGE)
         storage = storage_class()
@@ -79,7 +85,7 @@ class WebpageSnapshot(models.Model):
         image = ImageFile(placeholder)
         image.storage = storage
         return image
-    
+
     def get_thumbnail(self, geometry_string, **kwargs):
         """A shortcut for sorl thumbnail's ``get_thumbnail`` method."""
         for key, value in settings.THUMBNAIL_DEFAULTS.items():
@@ -92,9 +98,9 @@ class WebpageSnapshot(models.Model):
             # extends File and not ImageFile, so width property is not
             # available.
             image = ImageFile(self.get_image().file)
-            geometry_string = '%s' %(image.width)
+            geometry_string = '{}'.format(image.width)
         return sorl_thumbnail(self.get_image(), geometry_string,  **kwargs)
-    
+
     def save(self, *args, **kwargs):
         new = not self.pk
         super(WebpageSnapshot, self).save(*args, **kwargs)
@@ -105,4 +111,3 @@ class WebpageSnapshot(models.Model):
                 tasks.capture(pk=self.pk)
 
 models.signals.pre_delete.connect(utils.delete_image, sender=WebpageSnapshot)
-
