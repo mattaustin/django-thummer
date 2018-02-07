@@ -8,14 +8,14 @@ from django.db import models
 from pyvirtualdisplay import Display
 from selenium import webdriver
 from sorl.thumbnail import ImageField, get_thumbnail as sorl_thumbnail
-from thummer import settings, tasks, utils
-from thummer.managers import QuerySetManager
 import base64
 
 try:
     from hashlib import md5
 except ImportError:
     from md5 import new as md5
+
+from . import settings, querysets, tasks, utils
 
 
 class WebpageSnapshot(models.Model):
@@ -32,18 +32,11 @@ class WebpageSnapshot(models.Model):
 
     captured_at = models.DateTimeField(editable=False, null=True)
 
-    objects = QuerySetManager()
+    objects = querysets.WebpageSnapshotQuerySet.as_manager()
 
     class Meta(object):
         get_latest_by = 'captured_at'
         ordering = ['-captured_at']
-
-    class QuerySet(models.query.QuerySet):
-        def valid(self):
-            captured_after = datetime.now() - settings.VALID_FOR
-            return self.filter(
-                models.Q(captured_at__gte=captured_after) |
-                models.Q(captured_at__isnull=True))
 
     def __unicode__(self):
         return self.url
