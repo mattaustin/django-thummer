@@ -13,8 +13,3 @@ def get_thumbnail(url, geometry_string, **kwargs):
         webpage_snapshot = WebpageSnapshot(url=url)
         webpage_snapshot.save()
     return webpage_snapshot.get_thumbnail(geometry_string, **kwargs)
-
-
-def delete_image(sender, instance, **kwargs):
-    if instance.image:
-        instance.image.delete(save=False)

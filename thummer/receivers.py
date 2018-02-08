@@ -18,22 +18,6 @@
 from __future__ import absolute_import, unicode_literals
 
 
-__title__ = 'django-thummer'
-
-__version__ = '3.0.dev1'
-
-__url__ = 'https://github.com/mattaustin/django-thummer'
-
-__author__ = 'Matt Austin <devops@mattaustin.com.au>'
-
-__copyright__ = 'Copyright 2011-2018 Matt Austin'
-
-__license__ = 'Apache 2.0'
-
-
-default_app_config = 'thummer.apps.AppConfig'
-
-
-def get_thumbnail(*args, **kwargs):
-    from .utils import get_thumbnail
-    return get_thumbnail(*args, **kwargs)
+def delete_image(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete(save=False)

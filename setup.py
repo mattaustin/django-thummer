@@ -24,7 +24,7 @@ from os import path
 from distutils.core import Command
 from setuptools import find_packages, setup
 
-from thummer import __title__, __url__, __version__
+from thummer import __license__, __title__, __url__, __version__
 
 
 BASE_DIR = path.dirname(path.abspath(__file__))
@@ -97,7 +97,7 @@ setup(
     author='Matt Austin',
     author_email='devops@mattaustin.com.au',
 
-    license='Apache',
+    license=__license__,
 
     classifiers=[
         'Development Status :: 3 - Alpha',

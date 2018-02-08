@@ -12,7 +12,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from sorl.thumbnail import ImageField
 from sorl.thumbnail import get_thumbnail as sorl_thumbnail
 
-from . import querysets, settings, tasks, utils
+from . import querysets, settings, tasks
 
 
 try:
@@ -119,6 +119,3 @@ class WebpageSnapshot(models.Model):
                 tasks.capture.delay(pk=self.pk)
             else:
                 tasks.capture(pk=self.pk)
-
-
-models.signals.pre_delete.connect(utils.delete_image, sender=WebpageSnapshot)
