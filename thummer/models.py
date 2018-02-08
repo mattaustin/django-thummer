@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 
 from datetime import datetime
 
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
 from django.core.files.storage import get_storage_class
@@ -64,9 +65,13 @@ class WebpageSnapshot(models.Model):
 
     def _generate_filename(self):
         """Returns a unique filename base on the url and created datetime."""
-        assert self.captured_at
-        datetime_string = '{}'.format(self.captured_at).encode('utf-8')
-        hexdigest = md5(datetime_string + self.url.encode('utf-8')).hexdigest()
+        if not self.captured_at:
+            raise ValidationError(
+                'Cannot generate a filename when captured_at is not set.')
+        hexdigest = md5(
+            '{url}|{timestamp}'.format(
+                url=self.url, timestamp=self.captured_at.isoformat()).encode(
+                'utf-8')).hexdigest()
         return '{}/{}.png'.format(settings.UPLOAD_PATH, hexdigest)
 
     def _get_capture_resolution(self):
