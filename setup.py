@@ -122,7 +122,11 @@ setup(
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4',
 
     extras_require={
-        'tests': ['freezegun==0.3.9'],
+        'tests': [
+            'freezegun~=0.3',
+            'mock~=2.0',
+            'pytz',
+        ],
     },
 
 )
