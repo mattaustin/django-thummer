@@ -123,6 +123,7 @@ setup(
 
     extras_require={
         'tests': [
+            'coverage~=4.5',
             'freezegun~=0.3',
             'mock~=2.0',
             'pytz',
