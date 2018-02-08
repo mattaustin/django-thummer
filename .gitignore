@@ -6,6 +6,8 @@ __pycache__/
 /docs/_build/
 /bin/
 /build/
+/django_thummer.egg-info/
+/geckodriver.log
 /include/
 /lib/
 /lib64
