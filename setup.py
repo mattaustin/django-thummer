@@ -39,6 +39,14 @@ class DjangoCommand(Command):
 
     django_command_args = []
 
+    django_settings = {
+        'DATABASES': {'default': {'ENGINE': 'django.db.backends.sqlite3'}},
+        'INSTALLED_APPS': ['thummer'],
+        'MEDIA_ROOT': '/tmp/django-thummer/media/',
+        'MIDDLEWARE_CLASSES': [],
+        'ROOT_URLCONF': 'thummer.urls',
+    }
+
     user_options = []
 
     def initialize_options(self):
@@ -58,25 +66,19 @@ class DjangoCommand(Command):
         call_command(*self.django_command_args, verbosity=3)
 
 
+class CheckCommand(DjangoCommand):
+
+    django_command_args = ['check']
+
+
 class MakeMigrationsCommand(DjangoCommand):
 
     django_command_args = ['makemigrations', 'thummer']
-
-    django_settings = {
-        'DATABASES': {'default': {'ENGINE': 'django.db.backends.sqlite3'}},
-        'INSTALLED_APPS': ['thummer'],
-    }
 
 
 class TestCommand(DjangoCommand):
 
     django_command_args = ['test', 'thummer.tests']
-
-    django_settings = {
-        'DATABASES': {'default': {'ENGINE': 'django.db.backends.sqlite3'}},
-        'INSTALLED_APPS': ['thummer'],
-        'MEDIA_ROOT': '/tmp/django-thummer/media/',
-    }
 
 
 setup(
@@ -119,6 +121,7 @@ setup(
     packages=find_packages(),
 
     cmdclass={
+        'djangocheck': CheckCommand,
         'makemigrations': MakeMigrationsCommand,
         'test': TestCommand
     },
