@@ -8,6 +8,7 @@ from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
 from django.core.files.storage import get_storage_class
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from sorl.thumbnail import get_thumbnail as sorl_thumbnail
 from sorl.thumbnail import ImageField
 
@@ -19,6 +20,7 @@ except ImportError:
     from md5 import new as md5
 
 
+@python_2_unicode_compatible
 class WebpageSnapshot(models.Model):
     """Model representing a webpage snapshot."""
 
@@ -39,7 +41,7 @@ class WebpageSnapshot(models.Model):
         get_latest_by = 'captured_at'
         ordering = ['-captured_at']
 
-    def __unicode__(self):
+    def __str__(self):
         return self.url
 
     def _capture(self):
