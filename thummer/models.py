@@ -9,10 +9,11 @@ from django.core.files.images import ImageFile
 from django.core.files.storage import get_storage_class
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from sorl.thumbnail import get_thumbnail as sorl_thumbnail
 from sorl.thumbnail import ImageField
+from sorl.thumbnail import get_thumbnail as sorl_thumbnail
 
 from . import querysets, settings, tasks, utils
+
 
 try:
     from hashlib import md5
@@ -118,5 +119,6 @@ class WebpageSnapshot(models.Model):
                 tasks.capture.delay(pk=self.pk)
             else:
                 tasks.capture(pk=self.pk)
+
 
 models.signals.pre_delete.connect(utils.delete_image, sender=WebpageSnapshot)

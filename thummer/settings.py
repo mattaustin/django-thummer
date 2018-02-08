@@ -2,7 +2,6 @@
 from __future__ import absolute_import, unicode_literals
 
 from dateutil.relativedelta import relativedelta
-
 from django.conf import settings
 from django.core.files.storage import default_storage
 
