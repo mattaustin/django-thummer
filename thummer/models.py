@@ -40,7 +40,7 @@ class WebpageSnapshot(models.Model):
     class Meta(object):
         get_latest_by = 'captured_at'
         ordering = ['-captured_at']
-        unique_together = [('image',), ('url', 'captured_at')]
+        unique_together = ['url', 'captured_at']
 
     def __str__(self):
         return self.url

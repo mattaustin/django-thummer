@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterUniqueTogether(
             name='webpagesnapshot',
-            unique_together=set([('image',), ('url', 'captured_at')]),
+            unique_together=set([('url', 'captured_at')]),
         ),
     ]
