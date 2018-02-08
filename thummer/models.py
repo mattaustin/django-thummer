@@ -63,10 +63,11 @@ class WebpageSnapshot(models.Model):
         png = browser.get_screenshot_as_png()
 
         browser.quit()
-        self.image.save(self._generate_filename(), ContentFile(png))
+        self.image.save(self._generate_image_filename(), ContentFile(png))
         return True
+    _capture.alters_data = True
 
-    def _generate_filename(self):
+    def _generate_image_filename(self):
         """Returns a unique filename base on the url and created datetime."""
         if not self.captured_at:
             raise ValidationError(

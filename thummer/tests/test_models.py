@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2018 Matt Austin
+# Copyright 2011-2018 Matt Austin
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,36 +34,36 @@ class TestWebpageSnapshot(TestCase):
     def setUp(self):
         self.url = 'https://github.com/mattaustin/django-thummer/'
 
-    def test__generate_filename_raises_validation_error_if_captured_at_is_none(self):  # noqa: E501
+    def test__generate_image_filename_raises_validation_error_if_captured_at_is_none(self):  # noqa: E501
         obj = WebpageSnapshot(url=self.url)
 
         with self.assertRaises(ValidationError):
-            obj._generate_filename()
+            obj._generate_image_filename()
 
-    def test__generate_filename_returns_string_ending_with_png(self):
+    def test__generate_image_filename_returns_string_ending_with_png(self):
         obj = WebpageSnapshot(url=self.url,
                               captured_at=UTC.localize(datetime(2018, 1, 1)))
 
-        result = obj._generate_filename()
+        result = obj._generate_image_filename()
 
         self.assertTrue(result.endswith('.png'))
 
-    def test__generate_filename_returns_string_starting_with_upload_path(self):
+    def test__generate_image_filename_returns_string_starting_with_upload_path(self):  # noqa: E501
         upload_prefix = 'upload/prefix'
         obj = WebpageSnapshot(url=self.url,
                               captured_at=UTC.localize(datetime(2018, 1, 1)))
 
         with patch('thummer.settings.UPLOAD_PATH', upload_prefix):
-            result = obj._generate_filename()
+            result = obj._generate_image_filename()
 
         self.assertTrue(result.startswith(upload_prefix))
 
     @patch('thummer.settings.UPLOAD_PATH', 'thummer/test')
-    def test__generate_filename_returns_expected_filename(self):
+    def test__generate_image_filename_returns_expected_filename(self):
         expected_filename = 'thummer/test/c87049693b413fa3a1b7e40d6b01c0e0.png'
         timestamp = UTC.localize(datetime(2018, 1, 1))
 
         obj = WebpageSnapshot(url=self.url, captured_at=timestamp)
-        result = obj._generate_filename()
+        result = obj._generate_image_filename()
 
         self.assertEqual(expected_filename, result)
