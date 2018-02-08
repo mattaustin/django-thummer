@@ -18,12 +18,18 @@
 from __future__ import absolute_import, unicode_literals
 
 from datetime import datetime
-from unittest.mock import patch
 
 import pytz
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+
 from thummer.models import WebpageSnapshot
+
+
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
 
 
 UTC = pytz.timezone('Etc/UTC')
