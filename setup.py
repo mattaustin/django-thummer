@@ -75,10 +75,6 @@ class TestCommand(DjangoCommand):
     django_settings = {
         'DATABASES': {'default': {'ENGINE': 'django.db.backends.sqlite3'}},
         'INSTALLED_APPS': ['thummer'],
-        'MIDDLEWARE_CLASSES' : [],
-        'TEMPLATES': [{
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'APP_DIRS': True}],
         'MEDIA_ROOT': '/tmp/django-thummer/media/',
     }
 
