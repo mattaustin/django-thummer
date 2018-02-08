@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-from datetime import datetime
-
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
 from django.core.files.storage import get_storage_class
 from django.db import models
+from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from sorl.thumbnail import ImageField
 from sorl.thumbnail import get_thumbnail as sorl_thumbnail
@@ -60,7 +59,7 @@ class WebpageSnapshot(models.Model):
         viewport_height = browser.execute_script(
             'return document.body.scrollHeight;')
         browser.set_window_size(capture_resolution[0], viewport_height)  # TODO
-        self.captured_at = datetime.now()
+        self.captured_at = timezone.now()
         png = browser.get_screenshot_as_png()
 
         browser.quit()
