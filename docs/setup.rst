@@ -2,34 +2,36 @@
 Setup
 =====
 
+
 Requirements
 ------------
-django-thummer requires Firefox and Xvfb. On Debian/Ubuntu systems these can be 
-installed using::
 
-    sudo apt-get install firefox xvfb
+django-thummer requires Firefox. On Debian/Ubuntu systems this can be installed
+using::
+
+    sudo apt-get install firefox
+
+
+``geckodriver`` is also required. This can be downloaded from the
+`geckodriver releases page <https://github.com/mozilla/geckodriver/releases>`_,
+and extracted to somewhere on the system path, e.g. ``/usr/local/bin``.
 
 
 Installation
 ------------
+
 django-thummer can be installed to your Python environment using pip::
 
-    pip install django-thummer
+    python -m pip install django-thummer
 
-Then add ``thummer`` to ``INSTALLED_APPS`` in your Django settings file, and 
-sync the database. If you're using `South <http://south.aeracode.org/>`_, then 
-migrations are provided.
+Then add ``thummer`` to ``INSTALLED_APPS`` in your Django settings file.
+
 
 Using Celery for background thumbnail capture
 =============================================
+
 It is highly recommended to use Celery for background thumbnail capture.
 By default, django-thummer will automatically use Celery if it is available.
-Both celery and django-celery can be installed to your Python environment using 
-pip::
 
-    pip install django-celery
-
-Configuring celery can be tricky, and you should carefully read both the 
-`django-celery documentation <http://pypi.python.org/pypi/django-celery>`_ 
-and `celery documentation <http://docs.celeryproject.org/>`_.
-
+Configuring celery can be tricky, and you should carefully the
+`celery documentation <http://docs.celeryproject.org/en/latest/django/index.html>`_.
