@@ -2,7 +2,7 @@ language: python
 
 cache: pip
 
-dist: xenial
+dist: trusty
 
 sudo: false
 
@@ -12,8 +12,23 @@ python:
   - "3.5"
   - "3.6"
 
+env:
+    - TOX_ENV=python27-django18
+    - TOX_ENV=python27-django111
+    - TOX_ENV=python34-django18
+    - TOX_ENV=python34-django111
+    - TOX_ENV=python34-django20
+    - TOX_ENV=python35-django18
+    - TOX_ENV=python35-django111
+    - TOX_ENV=python35-django20
+    - TOX_ENV=python36-django18
+    - TOX_ENV=python36-django111
+    - TOX_ENV=python36-django20
+    - TOX_ENV=flake8
+    - TOX_ENV=isort
+
 install: pip install codecov tox-travis
 
-script: tox
+script: tox -e $TOX_ENV
 
-after_success: codecov
+after_success: codecov -e $TOX_ENV
