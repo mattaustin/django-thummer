@@ -19,7 +19,9 @@ with codecs.open(path.join(BASE_DIR, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 
-class TestCommand(Command):
+class DjangoCommand(Command):
+
+    django_command_args = []
 
     user_options = []
 
@@ -34,18 +36,35 @@ class TestCommand(Command):
         from django.conf import settings
         from django.core.management import call_command
 
-        settings.configure(
-            DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3'}},
-            INSTALLED_APPS=['thummer'],
-            MIDDLEWARE_CLASSES=[],
-            TEMPLATES=[{
-                'BACKEND': 'django.template.backends.django.DjangoTemplates',
-                'APP_DIRS': True}],
-            MEDIA_ROOT='/tmp/django-thummer/media/',
-        )
+        settings.configure(**self.django_settings)
 
         django.setup()
-        call_command('test', 'thummer.tests', verbosity=3)
+        call_command(*self.django_command_args, verbosity=3)
+
+
+class MakeMigrationsCommand(DjangoCommand):
+
+    django_command_args = ['makemigrations', 'thummer']
+
+    django_settings = {
+        'DATABASES': {'default': {'ENGINE': 'django.db.backends.sqlite3'}},
+        'INSTALLED_APPS': ['thummer'],
+    }
+
+
+class TestCommand(DjangoCommand):
+
+    django_command_args = ['test', 'thummer.tests']
+
+    django_settings = {
+        'DATABASES': {'default': {'ENGINE': 'django.db.backends.sqlite3'}},
+        'INSTALLED_APPS': ['thummer'],
+        'MIDDLEWARE_CLASSES' : [],
+        'TEMPLATES': [{
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'APP_DIRS': True}],
+        'MEDIA_ROOT': '/tmp/django-thummer/media/',
+    }
 
 
 setup(
@@ -87,7 +106,10 @@ setup(
 
     packages=find_packages(),
 
-    cmdclass={'test': TestCommand},
+    cmdclass={
+        'makemigrations': MakeMigrationsCommand,
+        'test': TestCommand
+    },
 
     install_requires=[
         'django>=1.8,!=1.9.*,!=1.10.*,<=2.1',
