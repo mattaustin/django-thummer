@@ -6,6 +6,7 @@ from django.contrib import admin
 from .models import WebpageSnapshot
 
 
+@admin.register(WebpageSnapshot)
 class WebpageSnapshotAdmin(admin.ModelAdmin):
 
     date_hierarchy = 'captured_at'
@@ -41,5 +42,3 @@ class WebpageSnapshotAdmin(admin.ModelAdmin):
         obj.get_image()
         return super(WebpageSnapshotAdmin, self).save_model(request, obj, form,
                                                             change)
-
-admin.site.register(WebpageSnapshot, WebpageSnapshotAdmin)
