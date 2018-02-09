@@ -6,6 +6,9 @@ from django.conf import settings
 from django.core.files.storage import default_storage
 
 
+DEFAULT_CAPTURE_WIDTH = getattr(settings, 'THUMMER_DEFAULT_CAPTURE_WIDTH',
+                                1024)
+
 STORAGE = getattr(settings, 'THUMMER_STORAGE', default_storage)
 
 VALID_FOR = getattr(settings, 'THUMMER_SNAPSHOTS_VALID_FOR',

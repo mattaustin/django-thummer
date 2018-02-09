@@ -29,7 +29,8 @@ class WebpageSnapshot(models.Model):
     image = ImageField(editable=False, storage=settings.STORAGE,
                        upload_to=settings.UPLOAD_PATH, null=True)
 
-    capture_width = models.IntegerField(default=1680, editable=False)  # TODO
+    capture_width = models.IntegerField(default=settings.DEFAULT_CAPTURE_WIDTH,
+                                        editable=False)
 
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
 
