@@ -3,12 +3,12 @@ from __future__ import absolute_import, unicode_literals
 
 
 try:
-    from celery.task import task
+    from celery import shared_task
 except ImportError:
     from functools import wraps
 
-    # Faux task decorator
-    def task(*args, **kwargs):
+    # Faux shared_task decorator
+    def shared_task(*args, **kwargs):
         def factory(func):
             @wraps(func)
             def decorator(*args, **kwargs):
@@ -17,8 +17,8 @@ except ImportError:
         return factory
 
 
-@task(ignore_result=True)
+@shared_task(ignore_result=True)
 def capture(pk):
     from .models import WebpageSnapshot
     instance = WebpageSnapshot.objects.get(pk=pk)
-    instance._capture()
+    return instance._capture()
