@@ -17,6 +17,8 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from sorl.thumbnail import delete
+
 from . import settings, tasks
 
 
@@ -32,4 +34,4 @@ def capture_image(sender, instance, created, raw, **kwargs):
 
 def delete_image(sender, instance, **kwargs):
     if instance.image:
-        instance.image.delete(save=False)
+        delete(instance.image)
