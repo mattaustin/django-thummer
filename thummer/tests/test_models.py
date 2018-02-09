@@ -66,7 +66,7 @@ class TestWebpageSnapshot(TestCase):
 
     @patch('thummer.settings.UPLOAD_PATH', 'thummer/test')
     def test__generate_image_filename_returns_expected_filename(self):
-        expected_filename = 'thummer/test/c87049693b413fa3a1b7e40d6b01c0e0.png'
+        expected_filename = 'thummer/test/a117ee7b996760879baceb506966e6ec.png'
         timestamp = UTC.localize(datetime(2018, 1, 1))
 
         obj = WebpageSnapshot(url=self.url, captured_at=timestamp)

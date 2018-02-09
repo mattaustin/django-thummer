@@ -16,7 +16,7 @@ else:
 
 
 DEFAULT_CAPTURE_WIDTH = getattr(settings, 'THUMMER_DEFAULT_CAPTURE_WIDTH',
-                                1024)
+                                1280)
 
 STORAGE = getattr(settings, 'THUMMER_STORAGE', default_storage)
 

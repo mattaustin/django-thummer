@@ -41,7 +41,7 @@ class WebpageSnapshot(models.Model):
     class Meta(object):
         get_latest_by = 'captured_at'
         ordering = ['-captured_at']
-        unique_together = ['url', 'captured_at']
+        unique_together = ['url', 'capture_width', 'captured_at']
 
     def __str__(self):
         return self.url
@@ -74,8 +74,9 @@ class WebpageSnapshot(models.Model):
             raise ValidationError(
                 'Cannot generate a filename when captured_at is not set.')
         hexdigest = md5(
-            '{url}|{timestamp}'.format(
-                url=self.url, timestamp=self.captured_at.isoformat()).encode(
+            '{url}|{width}|{timestamp}'.format(
+                url=self.url, width=self.capture_width,
+                timestamp=self.captured_at.isoformat()).encode(
                 'utf-8')).hexdigest()
         return '{}/{}.png'.format(settings.UPLOAD_PATH, hexdigest)
 
