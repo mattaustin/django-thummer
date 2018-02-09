@@ -63,7 +63,7 @@ class DjangoCommand(Command):
         settings.configure(**self.django_settings)
 
         django.setup()
-        call_command(*self.django_command_args, verbosity=3)
+        return call_command(*self.django_command_args, verbosity=3)
 
 
 class CheckCommand(DjangoCommand):
