@@ -1,10 +1,29 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2011-2018 Matt Austin
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
 from __future__ import absolute_import, unicode_literals
+
+import re
+
 from django.conf import settings
 from django.template import Library, Node, NodeList, TemplateSyntaxError
 from django.utils.encoding import smart_str
+
 from thummer.utils import get_thumbnail
-import re
 
 
 register = Library()
@@ -16,16 +35,16 @@ class ThummerNodeBase(Node):
     A Node that renders safely
     """
     nodelist_empty = NodeList()
-    
+
     def render(self, context):
         try:
             return self._render(context)
         except Exception:
             if settings.DEBUG:
                 raise
-            #TODO: Log error
+            # TODO: Log error
             return self.nodelist_empty.render(context)
-    
+
     def _render(self, context):
         raise NotImplemented()
 
@@ -35,7 +54,7 @@ class ThummerNode(ThummerNodeBase):
     child_nodelists = ('nodelist_url', 'nodelist_empty')
     error_msg = ('Syntax error. Expected: ``thummer url geometry '
                  '[key1=val1 key2=val2...] as var``')
-    
+
     def __init__(self, parser, token):
         bits = token.split_contents()
         if len(bits) < 5 or bits[-2] != 'as':
@@ -55,14 +74,14 @@ class ThummerNode(ThummerNodeBase):
         if parser.next_token().contents == 'empty':
             self.nodelist_empty = parser.parse(('endthummer',))
             parser.delete_first_token()
-    
+
     def _render(self, context):
         url = self.url.resolve(context)
         geometry = self.geometry.resolve(context)
         options = {}
         for key, expr in self.options:
-            noresolve = {u'True': True, u'False': False, u'None': None}
-            value = noresolve.get(unicode(expr), expr.resolve(context))
+            noresolve = {'True': True, 'False': False, 'None': None}
+            value = noresolve.get('{}'.format(expr), expr.resolve(context))
             if key == 'options':
                 options.update(value)
             else:
@@ -76,10 +95,9 @@ class ThummerNode(ThummerNodeBase):
         output = self.nodelist_url.render(context)
         context.pop()
         return output
-    
+
     def __iter__(self):
         for node in self.nodelist_url:
             yield node
         for node in self.nodelist_empty:
             yield node
-

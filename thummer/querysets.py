@@ -15,23 +15,22 @@
 # limitations under the License.
 
 
-from __future__ import absolute_import, unicode_literals
+from django.db import models
+from django.utils import timezone
 
-from . import views
-
-
-try:
-    from django.urls import path_re
-except ImportError:
-    from django.conf.urls import url as path_re
+from . import settings
 
 
-app_label = 'thummer'
+class WebpageSnapshotQuerySet(models.query.QuerySet):
 
+    def valid(self):
+        captured_after = timezone.now() - settings.VALID_FOR
+        return self.filter(
+            models.Q(captured_at__gte=captured_after) |
+            models.Q(captured_at__isnull=True))
 
-urlpatterns = [
+    def with_image(self):
+        return self.filter(image__isnull=False)
 
-    path_re(r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>0|1)/(?P<scheme>https?)://?(?P<hierarchical_part>.*)$',  # noqa: E501
-            views.ThumbnailView.as_view(), name='thumbnail'),
-
-]
+    def without_image(self):
+        return self.filter(image__isnull=True)

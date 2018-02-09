@@ -17,21 +17,22 @@
 
 from __future__ import absolute_import, unicode_literals
 
-from . import views
+from django import apps
+from django.db.models import signals
+
+from . import receivers
 
 
-try:
-    from django.urls import path_re
-except ImportError:
-    from django.conf.urls import url as path_re
+class AppConfig(apps.AppConfig):
 
+    name = 'thummer'
 
-app_label = 'thummer'
+    verbose_name = 'thummer'
 
-
-urlpatterns = [
-
-    path_re(r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>0|1)/(?P<scheme>https?)://?(?P<hierarchical_part>.*)$',  # noqa: E501
-            views.ThumbnailView.as_view(), name='thumbnail'),
-
-]
+    def ready(self):
+        signals.post_save.connect(
+            receivers.capture_image, sender='thummer.WebPageSnapshot',
+            dispatch_uid='thummer.WebPageSnapshot.capture_image')
+        signals.pre_delete.connect(
+            receivers.delete_image, sender='thummer.WebpageSnapshot',
+            dispatch_uid='thummer.WebpageSnapshot.delete_image')

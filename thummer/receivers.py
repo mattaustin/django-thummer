@@ -17,21 +17,21 @@
 
 from __future__ import absolute_import, unicode_literals
 
-from . import views
+from sorl.thumbnail import delete
+
+from . import settings, tasks
 
 
-try:
-    from django.urls import path_re
-except ImportError:
-    from django.conf.urls import url as path_re
+def capture_image(sender, instance, created, raw, **kwargs):
+    if created and not raw:
+        task = tasks.capture
+        task_kwargs = {'pk': instance.pk}
+        if settings.QUEUE_SNAPSHOTS:
+            task.delay(**task_kwargs)
+        else:
+            task(**task_kwargs)
 
 
-app_label = 'thummer'
-
-
-urlpatterns = [
-
-    path_re(r'^(?P<width>\d+)/(?P<height>\d+)/(?P<crop>0|1)/(?P<scheme>https?)://?(?P<hierarchical_part>.*)$',  # noqa: E501
-            views.ThumbnailView.as_view(), name='thumbnail'),
-
-]
+def delete_image(sender, instance, **kwargs):
+    if instance.image:
+        delete(instance.image)
