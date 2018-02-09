@@ -30,6 +30,9 @@ class AppConfig(apps.AppConfig):
     verbose_name = 'thummer'
 
     def ready(self):
+        signals.post_save.connect(
+            receivers.capture_image, sender='thummer.WebPageSnapshot',
+            dispatch_uid='thummer.WebPageSnapshot.capture_image')
         signals.pre_delete.connect(
             receivers.delete_image, sender='thummer.WebpageSnapshot',
             dispatch_uid='thummer.WebpageSnapshot.delete_image')

@@ -17,6 +17,18 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from . import settings, tasks
+
+
+def capture_image(sender, instance, created, raw, **kwargs):
+    if created and not raw:
+        task = tasks.capture
+        task_kwargs = {'pk': instance.pk}
+        if settings.QUEUE_SNAPSHOTS:
+            task.delay(**task_kwargs)
+        else:
+            task(**task_kwargs)
+
 
 def delete_image(sender, instance, **kwargs):
     if instance.image:

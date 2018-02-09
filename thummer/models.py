@@ -11,7 +11,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from sorl.thumbnail import ImageField
 from sorl.thumbnail import get_thumbnail as sorl_thumbnail
 
-from . import querysets, settings, tasks
+from . import querysets, settings
 
 
 try:
@@ -110,12 +110,3 @@ class WebpageSnapshot(models.Model):
             image = ImageFile(self.get_image().file)
             geometry_string = '{}'.format(image.width)
         return sorl_thumbnail(self.get_image(), geometry_string,  **kwargs)
-
-    def save(self, *args, **kwargs):
-        new = not self.pk
-        super(WebpageSnapshot, self).save(*args, **kwargs)
-        if new:
-            if settings.QUEUE_SNAPSHOTS:
-                tasks.capture.delay(pk=self.pk)
-            else:
-                tasks.capture(pk=self.pk)
