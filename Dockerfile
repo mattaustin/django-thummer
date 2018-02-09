@@ -2,7 +2,7 @@
 # docker build --tag="${PWD##*/}" .
 #
 # Run tests:
-# docker run --rm --tty --interactive --volume "${PWD}":/var/task "${PWD##*/}" test
+# docker run --user ${UID}:${GROUPS} --rm --tty --interactive --volume "${PWD}":/var/task "${PWD##*/}"
 
 
 FROM ubuntu:16.04
@@ -30,11 +30,13 @@ RUN tar -xvf geckodriver-*.tar.gz --directory /usr/local/bin/
 
 
 # Configure environment
+ENV HOME /tmp
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONWARNINGS d
 
 
 # Entrypoint
 WORKDIR /var/task
+USER 1000:1000
 ENTRYPOINT ["/opt/venv/bin/python", "setup.py"]
 CMD ["test"]

@@ -38,12 +38,13 @@ def remove_pyc_files():
 @task
 def run(command='check'):
     with lcd('.'):
-        local('docker run --rm --tty --interactive --shm-size 2g '
+        local('docker run --user {uid}:{gid} --rm --tty --interactive '
+              '--shm-size 2g '
               '--volume={local_pwd}:/var/task '
               '--volume=/tmp/django-thummer:/tmp/django-thummer '
               '{project_name} {command}'.format(
-                  local_pwd=local_pwd, project_name=project_name,
-                  command=command))
+                  uid=os.getuid(), gid=os.getgid(), local_pwd=local_pwd,
+                  project_name=project_name, command=command))
 
 
 @task
